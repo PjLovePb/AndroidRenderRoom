@@ -5,7 +5,7 @@
 #include <LogUtil.h>
 #include <GLUtils.h>
 #include "EGLRender.h"
-
+#include <unistd.h>
 #define VERTEX_POS_LOC  0
 #define TEXTURE_POS_LOC 1
 
@@ -363,7 +363,15 @@ void EGLRender::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, GL_NONE);
 
-
+	for(int compileId=0;compileId<500;compileId++)
+	{
+		GLuint local_fragmentShader;
+		GLuint local_vertexShader;
+		GLuint test_programObj=GLUtils::CreateProgram(vShaderStr, m_fShaderStrs[0], local_vertexShader,
+													  local_fragmentShader);
+		glFinish();
+		LOGCATE("Tide Lei Test Compile Shaders  %d................",compileId);
+	}
 	m_ProgramObj = GLUtils::CreateProgram(vShaderStr, m_fShaderStrs[m_ShaderIndex], m_VertexShader,
 									 m_FragmentShader);
 	if (!m_ProgramObj)
